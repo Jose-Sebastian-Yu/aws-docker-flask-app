@@ -1,13 +1,19 @@
 #!/bin/bash
 
-echo "Stopping old container..."
-sudo docker stop my-app || true
-sudo docker rm my-app || true
+echo "🚀 Starting deployment..."
 
-echo "Building image..."
-sudo docker build -t my-app .
+cd ~/docker-app || exit
 
-echo "Running new container..."
-sudo docker run -d -p 5000:5000 --name my-app my-app
+echo "📦 Building Docker image..."
+docker build -t my-app .
 
-echo "Deployment complete!"
+echo "🛑 Stopping old container..."
+docker stop my-app || true
+
+echo "🗑️ Removing old container..."
+docker rm my-app || true
+
+echo "▶️ Starting new container..."
+docker run -d -p 80:5000 --name my-app my-app
+
+echo "✅ Deployment complete!"
